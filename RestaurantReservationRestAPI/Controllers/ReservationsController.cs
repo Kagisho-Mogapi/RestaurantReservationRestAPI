@@ -23,7 +23,7 @@ namespace RestaurantReservationRestAPI.Controllers
             return await _context.Reservations.ToListAsync();
         }
 
-        [HttpGet("Get by Id")]
+        [HttpGet("Details/{Id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var res = await _context.Reservations.FindAsync(id);
@@ -55,7 +55,7 @@ namespace RestaurantReservationRestAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             Reservation reservation = await _context.Reservations.FindAsync(id);
