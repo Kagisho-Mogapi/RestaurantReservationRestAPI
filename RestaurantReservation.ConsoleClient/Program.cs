@@ -45,6 +45,7 @@ if(response.IsSuccessStatusCode)
                 break;
 
             case 4:
+                await UpdateReservation();
                 break;
 
             case 5:
@@ -140,4 +141,58 @@ async Task DeleteReservation()
     response.EnsureSuccessStatusCode();
 
     Console.WriteLine("!!! Reservation deleted successfully !!!");
+}
+
+async Task UpdateReservation()
+{
+    await AllReservations();
+    char answer = ' ';
+
+    Console.Write("Choose reservation to update by id: ");
+    int id = int.Parse(Console.ReadLine());
+
+    response = await client.GetAsync($"api/reservations/details/{id}");
+    response.EnsureSuccessStatusCode();
+    var reservation = await response.Content.ReadFromJsonAsync<Reservation>();
+
+
+    Console.Write("Update reservation Name?(y/n): ");
+    answer = char.Parse(Console.ReadLine());
+    if (answer == 'y')
+    {
+        Console.Write("Enter item name: ");
+        reservation.Name = Console.ReadLine();
+    }
+
+    Console.Write("Update number of reservation attendees?(y/n): ");
+    answer = char.Parse(Console.ReadLine());
+    if (answer == 'y')
+    {
+        Console.Write("Enter reservation attendee number: ");
+        reservation.TableFor = int.Parse(Console.ReadLine());
+    }
+
+    Console.Write("Update reservation table number?(y/n): ");
+    answer = char.Parse(Console.ReadLine());
+    if (answer == 'y')
+    {
+        Console.Write("Enter reservation table number: ");
+        reservation.TableNo = int.Parse(Console.ReadLine());
+    }
+
+    Console.Write("Update reservation time?(y/n): ");
+    answer = char.Parse(Console.ReadLine());
+    if (answer == 'y')
+    {
+        Console.Write("Enter reservation time(yyyy-mm-dd hh:mm PM/AM): ");
+        reservation.Time = DateTime.Parse(Console.ReadLine());
+    }
+
+    var payload = JsonConvert.SerializeObject(reservation);
+    var content = new StringContent(payload, Encoding.UTF8,"application/json");
+
+    response = await client.PutAsync($"api/reservations/update/{id}", content);
+    response.EnsureSuccessStatusCode();
+
+    Console.WriteLine("!!! Reservation updated successfully !!!");
 }

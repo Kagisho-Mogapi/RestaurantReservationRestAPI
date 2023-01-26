@@ -23,7 +23,7 @@ namespace RestaurantReservationRestAPI.Controllers
             return await _context.Reservations.ToListAsync();
         }
 
-        [HttpGet("Details/{Id}")]
+        [HttpGet("Details/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var res = await _context.Reservations.FindAsync(id);
@@ -43,7 +43,7 @@ namespace RestaurantReservationRestAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = reservation.Id }, reservation);
         }
 
-        [HttpPut("Update")]
+        [HttpPut("Update/{id}")]
         public async Task<IActionResult> Update(int id, Reservation reservation)
         {
             if (id != reservation.Id)
