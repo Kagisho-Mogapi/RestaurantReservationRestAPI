@@ -160,7 +160,7 @@ async Task UpdateReservation()
     answer = char.Parse(Console.ReadLine());
     if (answer == 'y')
     {
-        Console.Write("Enter item name: ");
+        Console.Write("Enter reservation name: ");
         reservation.Name = Console.ReadLine();
     }
 
